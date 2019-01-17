@@ -1,4 +1,4 @@
-package com.ray.common.core.sso;
+package com.ray.common.sso;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
