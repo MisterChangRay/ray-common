@@ -1,1 +1,4 @@
-com\ray\common\mybatis\MyDaoService.class
+com\ray\common\mybatis\impl\MyBatisDaoImpl.class
+com\ray\common\mybatis\MyBatisDao.class
+com\ray\common\mybatis\dao\mapper\TestMybatisMapper.class
+com\ray\common\mybatis\intercept\PageHelperIntercept.class

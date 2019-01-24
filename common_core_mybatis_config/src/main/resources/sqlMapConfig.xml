@@ -24,8 +24,6 @@
 </settings>
   <typeAliases>
     <typeAlias alias="dto" type="java.util.HashMap"/>
-   <!--  <package name="com.rsr.api.domain"/>
-    <package name="com.rsr.vo"/> -->
   </typeAliases>
 
 </configuration>

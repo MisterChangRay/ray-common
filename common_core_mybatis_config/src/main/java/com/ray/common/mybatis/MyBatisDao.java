@@ -1,5 +1,7 @@
 package com.ray.common.mybatis;
 
+import com.ray.common.core.BaseResponse;
+
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +14,15 @@ import java.util.Map;
  */
 public interface MyBatisDao<T> {
     T queryOne(String key, Map<String, String> param);
+
+    /**
+     * 带分页查询,请传入 page, pageSize 参数
+     * 书写的 sql 不要使用 limit 进行操作否则功能不能正常执行
+     * @param key
+     * @param param
+     * @return
+     */
+    BaseResponse<T> queryWithPage(String key, Map<String, String> param);
 
     List<T> queryMulti(String key, Map<String, String> param);
 

@@ -1,1 +1,4 @@
-F:\workspace\ray-common\common_core_mybatis_config\src\main\java\com\ray\common\mybatis\MyDaoService.java
+F:\workspace\ray-common\common_core_mybatis_config\src\main\java\com\ray\common\mybatis\dao\mapper\TestMybatisMapper.java
+F:\workspace\ray-common\common_core_mybatis_config\src\main\java\com\ray\common\mybatis\MyBatisDao.java
+F:\workspace\ray-common\common_core_mybatis_config\src\main\java\com\ray\common\mybatis\impl\MyBatisDaoImpl.java
+F:\workspace\ray-common\common_core_mybatis_config\src\main\java\com\ray\common\mybatis\config\MybatisConfig.java

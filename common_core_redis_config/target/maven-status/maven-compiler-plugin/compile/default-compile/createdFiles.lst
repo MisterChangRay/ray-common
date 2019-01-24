@@ -1,1 +1,2 @@
-com\ray\common\mybatis\common\redis\config\RedisConfig.class
+com\ray\common\redis\config\RedisConfig.class
+com\ray\common\redis\config\RedisPath.class
