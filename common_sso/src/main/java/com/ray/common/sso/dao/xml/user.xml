@@ -4,6 +4,9 @@
     <select id="query" resultType="com.ray.common.sso.dao.entity.User" parameterType="map">
         select * from user
         <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
             <if test="username != null and username != ''">
                 and username = #{username}
             </if>
@@ -22,4 +25,35 @@
         </where>
     </select>
 
+
+    <insert id="insert" parameterType="map" keyProperty="id" useGeneratedKeys="true">
+        insert into user (username, password, name, email, phone)
+        values (
+            #{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},
+            #{email,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR}
+        )
+    </insert>
+
+
+    <update id="update" parameterType="map">
+        update user
+        <set>
+            <if test="username != null">
+                username = #{username,jdbcType=TINYINT},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=TIMESTAMP},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=TIMESTAMP},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

@@ -1,4 +1,4 @@
-package com.ray.common.sso.service;
+package com.ray.common.sso.service.session;
 
 import com.ray.common.core.BaseResponse;
 

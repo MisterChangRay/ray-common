@@ -1,7 +1,7 @@
 package com.ray.common.sso.controller.sso;
 
 import com.ray.common.core.BaseResponse;
-import com.ray.common.sso.service.SessionService;
+import com.ray.common.sso.service.session.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;

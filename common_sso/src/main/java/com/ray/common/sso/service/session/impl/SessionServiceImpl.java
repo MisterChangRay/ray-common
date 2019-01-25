@@ -1,4 +1,4 @@
-package com.ray.common.sso.service.impl;
+package com.ray.common.sso.service.session.impl;
 
 import com.ray.common.core.BaseResponse;
 import com.ray.common.core.enums.ResponseEnum;
@@ -8,7 +8,9 @@ import com.ray.common.mybatis.MyBatisDao;
 import com.ray.common.redis.RedisService;
 import com.ray.common.redis.config.RedisPath;
 import com.ray.common.sso.dao.entity.User;
-import com.ray.common.sso.service.SessionService;
+import com.ray.common.sso.service.session.SessionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,8 @@ import java.util.UUID;
  */
 @Service
 public class SessionServiceImpl implements SessionService {
+    private static final Logger logger = LoggerFactory.getLogger(SessionServiceImpl.class);
+
     @Autowired
     private RedisService redisService;
     @Autowired
@@ -56,7 +60,7 @@ public class SessionServiceImpl implements SessionService {
             return BaseResponse.build(ResponseEnum.FAILURE).setMsg("请传入登录参数[(username & password) || (phone & vercode)]");
         }
 
-        BaseResponse<User> res = null;
+        BaseResponse<User> res = BaseResponse.build(ResponseEnum.FAILURE);
         if(!ValidUtil.isEmpty("username")) {
             res =  loginByUserName(param);
         } else if(!ValidUtil.isEmpty("phone")) {
