@@ -11,9 +11,10 @@ import java.util.Map;
  * @author Rui.Zhang/misterchangray@hotmail.com
  * @author Created on 3/20/2018.
  */
-public interface LoginService {
-    BaseResponse login(Map<String, String> param);
-    BaseResponse logout(Map<String, String> param);
+public interface SessionService {
+    BaseResponse createSession(Map<String, String> param);
 
-    BaseResponse isLogin(Map<String, String> param);
+    BaseResponse destroySession(Map<String, String> param);
+
+    BaseResponse isValidSession(Map<String, String> param);
 }

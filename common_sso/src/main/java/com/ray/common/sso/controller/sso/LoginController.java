@@ -1,7 +1,7 @@
-package com.ray.common.sso.controller;
+package com.ray.common.sso.controller.sso;
 
 import com.ray.common.core.BaseResponse;
-import com.ray.common.sso.service.LoginService;
+import com.ray.common.sso.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,29 +16,30 @@ import java.util.Map;
  * 修改人：Zhang.Rui
  * 修改时间：2019/1/17
  * 描述：
+ * 单点系统登陆
  */
 @Component
-@RequestMapping("/session")
+@RequestMapping("/sso")
 public class LoginController {
     @Autowired
-    LoginService loginService;
+    SessionService sessionService;
+
+
+    @RequestMapping("/view")
+    public String view(@RequestParam Map<String, String> param) {
+        return null;
+    }
 
     @RequestMapping("/login")
     @ResponseBody
-    public BaseResponse login(@RequestParam Map<String, String> param) {
-        return loginService.logout(param);
-//        return loginService.login(param);
+    public BaseResponse createSession(@RequestParam Map<String, String> param) {
+        return sessionService.createSession(param);
     }
 
     @RequestMapping("/logout")
     @ResponseBody
-    public BaseResponse logout(@RequestParam Map<String, String> param) {
-        return BaseResponse.build();
+    public BaseResponse destroySession(@RequestParam Map<String, String> param) {
+        return sessionService.destroySession(param);
     }
 
-    @RequestMapping("/isLogin")
-    @ResponseBody
-    public BaseResponse isLogin(@RequestParam Map<String, String> param) {
-        return BaseResponse.build();
-    }
 }

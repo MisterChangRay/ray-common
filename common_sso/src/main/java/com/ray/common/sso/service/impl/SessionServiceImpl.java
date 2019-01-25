@@ -8,7 +8,7 @@ import com.ray.common.mybatis.MyBatisDao;
 import com.ray.common.redis.RedisService;
 import com.ray.common.redis.config.RedisPath;
 import com.ray.common.sso.dao.entity.User;
-import com.ray.common.sso.service.LoginService;
+import com.ray.common.sso.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ import java.util.UUID;
  * 描述：
  */
 @Service
-public class LoginServiceImpl implements LoginService {
+public class SessionServiceImpl implements SessionService {
     @Autowired
     private RedisService redisService;
     @Autowired
@@ -50,7 +50,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public BaseResponse login(Map<String, String> param) {
+    public BaseResponse createSession(Map<String, String> param) {
         if((ValidUtil.isEmpty(param.get("phone")) && ValidUtil.isEmpty(param.get("vercode"))) ||
                 (ValidUtil.isEmpty(param.get("username")) && ValidUtil.isEmpty(param.get("password")))) {
             return BaseResponse.build(ResponseEnum.FAILURE).setMsg("请传入登录参数[(username & password) || (phone & vercode)]");
@@ -72,12 +72,12 @@ public class LoginServiceImpl implements LoginService {
 
 
     @Override
-    public BaseResponse logout(Map<String, String> param) {
+    public BaseResponse destroySession(Map<String, String> param) {
         return myBatisDao.queryWithPage("user.queryConst", param);
     }
 
     @Override
-    public BaseResponse isLogin(Map<String, String> param) {
+    public BaseResponse isValidSession(Map<String, String> param) {
         if(ValidUtil.isEmpty(param.get("token"))) {
             return BaseResponse.build(ResponseEnum.FAILURE).setMsg("请传入参数[token]");
         }

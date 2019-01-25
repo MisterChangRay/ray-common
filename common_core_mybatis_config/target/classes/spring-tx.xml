@@ -9,7 +9,7 @@
  	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"
 	   default-lazy-init="true">
 	
-	<!-- 配置事务特性 -->
+	<!-- 配置事务特�?? -->
 	<tx:advice id="txAdvice">
 		<tx:attributes>
 			<tx:method name="add*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
@@ -24,7 +24,7 @@
 		</tx:attributes>
 	</tx:advice>
 
-	<!-- 配置哪些类的方法需要进行事务管理 -->
+	<!-- 配置哪些类的方法�?要进行事务管�? -->
 	<aop:config>
 		<aop:pointcut id="allManagerMethod"
 			expression="execution(* com.ray..service..*.*(..))" />
