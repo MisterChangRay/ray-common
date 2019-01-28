@@ -17,4 +17,6 @@ public interface ConstService {
     BaseResponse delete(Map<String, String> param);
 
     BaseResponse edit(Map<String, String> param);
+
+    BaseResponse query(Map<String, String> param);
 }

@@ -1,7 +1,7 @@
 package com.ray.common.sso.controller.sso;
 
 import com.ray.common.core.BaseResponse;
-import com.ray.common.sso.service.session.SessionService;
+import com.ray.common.sso.service.sso.ConstService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +22,7 @@ import java.util.Map;
 @RequestMapping("/sso/constant")
 public class ConstantController {
     @Autowired
-    SessionService sessionService;
+    ConstService constService;
 
     @RequestMapping("/view")
     public String view(@RequestParam Map<String, String> param) {
@@ -32,19 +32,25 @@ public class ConstantController {
     @RequestMapping("/add")
     @ResponseBody
     public BaseResponse add(@RequestParam Map<String, String> param) {
-        return sessionService.createSession(param);
+        return constService.add(param);
     }
 
     @RequestMapping("/update")
     @ResponseBody
     public BaseResponse update(@RequestParam Map<String, String> param) {
-        return sessionService.destroySession(param);
+        return constService.edit(param);
     }
 
     @RequestMapping("/delete")
     @ResponseBody
     public BaseResponse delete(@RequestParam Map<String, String> param) {
-        return sessionService.destroySession(param);
+        return constService.delete(param);
+    }
+
+    @RequestMapping("/query")
+    @ResponseBody
+    public BaseResponse query(@RequestParam Map<String, String> param) {
+        return constService.query(param);
     }
 
 }

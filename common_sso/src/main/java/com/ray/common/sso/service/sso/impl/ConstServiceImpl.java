@@ -11,6 +11,7 @@ import com.ray.common.sso.service.sso.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -63,8 +64,14 @@ public class ConstServiceImpl implements ConstService {
                 .add("shortcut", param.get("shortcut"))
                 .add("pid", param.get("pid"))
                 .add("enabled", DBEnum.TRUE);
-        int i = myBatisDao.update("user.insert", data);
+        int i = myBatisDao.update("const.insert", data);
         if (1 == i) return BaseResponse.build(ResponseEnum.SUCCESS);
         return BaseResponse.build(ResponseEnum.FAILURE);
+    }
+
+    @Override
+    public BaseResponse query(Map<String, String> param) {
+        List<Object> res = myBatisDao.queryMulti("const.query", param);
+        return BaseResponse.build(ResponseEnum.SUCCESS).setData(res);
     }
 }
