@@ -55,7 +55,7 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public BaseResponse createSession(Map<String, String> param) {
-        if((ValidUtil.isEmpty(param.get("phone")) && ValidUtil.isEmpty(param.get("vercode"))) ||
+        if((ValidUtil.isEmpty(param.get("phone")) && ValidUtil.isEmpty(param.get("vercode"))) &&
                 (ValidUtil.isEmpty(param.get("username")) && ValidUtil.isEmpty(param.get("password")))) {
             return BaseResponse.build(ResponseEnum.FAILURE).setMsg("请传入登录参数[(username & password) || (phone & vercode)]");
         }

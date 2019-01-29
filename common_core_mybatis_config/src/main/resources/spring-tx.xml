@@ -16,6 +16,7 @@
 			<tx:method name="save*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
 			<tx:method name="insert*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
 			<tx:method name="del*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+			<tx:method name="delete*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
 			<tx:method name="remove*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
 			<tx:method name="update*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
 			<tx:method name="mod*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>

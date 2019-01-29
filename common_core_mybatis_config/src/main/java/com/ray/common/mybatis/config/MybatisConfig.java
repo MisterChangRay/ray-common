@@ -1,6 +1,7 @@
-package com.ray.common.redis.config;
+package com.ray.common.mybatis.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 
 /**
@@ -12,6 +13,6 @@ import org.springframework.context.annotation.PropertySource;
  */
 @Configuration
 @PropertySource({"classpath:jdbc.properties","classpath:mybatis.properties"})
-//@ImportResource("classpath:spring-tx.xml")
+@ImportResource("classpath:spring-tx.xml")
 public class MybatisConfig {
 }

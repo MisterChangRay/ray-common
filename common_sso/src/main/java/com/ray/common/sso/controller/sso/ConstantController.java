@@ -4,6 +4,7 @@ import com.ray.common.core.BaseResponse;
 import com.ray.common.sso.service.sso.ConstService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,16 +19,13 @@ import java.util.Map;
  * 描述：
  * 配置中心
  */
-@Component
+@Controller
 @RequestMapping("/sso/constant")
 public class ConstantController {
     @Autowired
     ConstService constService;
 
-    @RequestMapping("/view")
-    public String view(@RequestParam Map<String, String> param) {
-        return null;
-    }
+
 
     @RequestMapping("/add")
     @ResponseBody

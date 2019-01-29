@@ -4,6 +4,7 @@ import com.ray.common.core.BaseResponse;
 import com.ray.common.sso.service.session.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,17 +19,13 @@ import java.util.Map;
  * 描述：
  * 单点系统-权限管理
  */
-@Component
+@Controller
 @RequestMapping("/sso/permission")
 public class PermissionController {
     @Autowired
     SessionService sessionService;
 
 
-    @RequestMapping("/view")
-    public String view(@RequestParam Map<String, String> param) {
-        return null;
-    }
 
     @RequestMapping("/add")
     @ResponseBody

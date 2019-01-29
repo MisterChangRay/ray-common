@@ -9,13 +9,14 @@
  	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"
 	   default-lazy-init="true">
 	
-	<!-- 配置事务特�?? -->
+	<!-- 配置事务特性 -->
 	<tx:advice id="txAdvice">
 		<tx:attributes>
 			<tx:method name="add*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
 			<tx:method name="save*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
 			<tx:method name="insert*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
 			<tx:method name="del*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+			<tx:method name="delete*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
 			<tx:method name="remove*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
 			<tx:method name="update*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
 			<tx:method name="mod*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
@@ -24,7 +25,7 @@
 		</tx:attributes>
 	</tx:advice>
 
-	<!-- 配置哪些类的方法�?要进行事务管�? -->
+	<!-- 配置哪些类的方法需要进行事务管理 -->
 	<aop:config>
 		<aop:pointcut id="allManagerMethod"
 			expression="execution(* com.ray..service..*.*(..))" />

@@ -1,26 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="role">
-    <select id="query" resultType="com.ray.common.sso.dao.entity.User" parameterType="map">
-        select * from user
+
+    <select id="query" resultType="map" parameterType="map">
+        select id,name,enabled,deleted from role
         <where>
-            <if test="username != null and username != ''">
-                and username = #{username}
-            </if>
-            <if test="password != null and password != ''">
-                and password = #{password}
+            <if test="id != null and id != ''">
+                and id = #{id}
             </if>
             <if test="name != null and name != ''">
                 and name = #{name}
             </if>
-            <if test="email != null and email != ''">
-                and email = #{email}
-            </if>
-            <if test="phone != null and phone != ''">
-                and phone = #{phone}
+            <if test="enabled != null and enabled != ''">
+                and enabled = #{enabled}
             </if>
         </where>
     </select>
 
+    <insert id="insert" parameterType="map" keyProperty="id" useGeneratedKeys="true">
+        insert into role (name)
+        values (#{name,jdbcType=VARCHAR})
+    </insert>
+
+
+    <update id="update" parameterType="map">
+        update role
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=TINYINT},
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 
 </mapper>
