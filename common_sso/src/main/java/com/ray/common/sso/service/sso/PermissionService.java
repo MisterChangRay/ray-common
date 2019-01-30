@@ -15,5 +15,8 @@ public interface PermissionService {
 
     BaseResponse delete(Map<String, String> param);
 
-    BaseResponse edit(Map<String, String> param);
+    BaseResponse update(Map<String, String> param);
+
+    BaseResponse enable(Map<String, String> param);
+    BaseResponse disable(Map<String, String> param);
 }

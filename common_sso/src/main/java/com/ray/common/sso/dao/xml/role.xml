@@ -14,12 +14,15 @@
             <if test="enabled != null and enabled != ''">
                 and enabled = #{enabled}
             </if>
+            <if test="deleted != null and deleted != ''">
+                and deleted = #{deleted}
+            </if>
         </where>
     </select>
 
     <insert id="insert" parameterType="map" keyProperty="id" useGeneratedKeys="true">
-        insert into role (name)
-        values (#{name,jdbcType=VARCHAR})
+        insert into role (name, enabled, deleted)
+        values (#{roleName,jdbcType=VARCHAR},#{enabled,jdbcType=VARCHAR},#{deleted,jdbcType=VARCHAR})
     </insert>
 
 
@@ -27,10 +30,10 @@
         update role
         <set>
             <if test="name != null">
-                name = #{name,jdbcType=TINYINT},
+                name = #{name,jdbcType=VARCHAR},
             </if>
             <if test="enabled != null">
-                enabled = #{enabled,jdbcType=TIMESTAMP},
+                enabled = #{enabled,jdbcType=VARCHAR},
             </if>
             <if test="deleted != null">
                 deleted = #{deleted,jdbcType=VARCHAR},

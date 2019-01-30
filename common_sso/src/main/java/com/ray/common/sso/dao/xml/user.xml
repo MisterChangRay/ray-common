@@ -22,14 +22,20 @@
             <if test="phone != null and phone != ''">
                 and phone = #{phone}
             </if>
+            <if test="enabled != null and enabled != ''">
+                and enabled = #{enabled}
+            </if>
+            <if test="deleted != null and deleted != ''">
+                and deleted = #{deleted}
+            </if>
         </where>
     </select>
 
 
     <insert id="insert" parameterType="map" keyProperty="id" useGeneratedKeys="true">
-        insert into user (username, password, name, email, phone)
+        insert into user (username, password, idcard, name, email, phone)
         values (
-            #{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},
+            #{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{idcard,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},
             #{email,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR}
         )
     </insert>
@@ -39,19 +45,28 @@
         update user
         <set>
             <if test="username != null">
-                username = #{username,jdbcType=TINYINT},
+                username = #{username,jdbcType=VARCHAR},
             </if>
             <if test="password != null">
-                password = #{password,jdbcType=TIMESTAMP},
+                password = #{password,jdbcType=VARCHAR},
             </if>
             <if test="name != null">
-                name = #{name,jdbcType=TIMESTAMP},
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="idcard != null">
+                idcard = #{idcard,jdbcType=VARCHAR},
             </if>
             <if test="email != null">
                 email = #{email,jdbcType=VARCHAR},
             </if>
             <if test="phone != null">
                 phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled,jdbcType=VARCHAR},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

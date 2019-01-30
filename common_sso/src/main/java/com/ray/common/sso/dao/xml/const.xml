@@ -10,6 +10,12 @@
             <if test="pid != null and pid != ''">
                 and pid = #{pid}
             </if>
+            <if test="enabled != null and enabled != ''">
+                and enabled = #{enabled}
+            </if>
+            <if test="deleted != null and deleted != ''">
+                and deleted = #{deleted}
+            </if>
         </where>
     </select>
 

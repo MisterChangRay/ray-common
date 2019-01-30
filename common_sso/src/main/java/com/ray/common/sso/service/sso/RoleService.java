@@ -11,9 +11,13 @@ import java.util.Map;
  * @author Created on 3/20/2018.
  */
 public interface RoleService {
+    BaseResponse query(Map<String, String> param);
     BaseResponse add(Map<String, String> param);
 
     BaseResponse delete(Map<String, String> param);
 
-    BaseResponse edit(Map<String, String> param);
+    BaseResponse update(Map<String, String> param);
+
+    BaseResponse enable(Map<String, String> param);
+    BaseResponse disable(Map<String, String> param);
 }

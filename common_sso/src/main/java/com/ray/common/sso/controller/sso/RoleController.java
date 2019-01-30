@@ -2,6 +2,7 @@ package com.ray.common.sso.controller.sso;
 
 import com.ray.common.core.BaseResponse;
 import com.ray.common.sso.service.session.SessionService;
+import com.ray.common.sso.service.sso.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -23,26 +24,30 @@ import java.util.Map;
 @RequestMapping("/sso/role")
 public class RoleController {
     @Autowired
-    SessionService sessionService;
+    RoleService roleService;
 
-
+    @RequestMapping("/list")
+    @ResponseBody
+    public BaseResponse list(@RequestParam Map<String, String> param) {
+        return roleService.query(param);
+    }
 
     @RequestMapping("/add")
     @ResponseBody
     public BaseResponse add(@RequestParam Map<String, String> param) {
-        return sessionService.createSession(param);
+        return roleService.add(param);
     }
 
     @RequestMapping("/update")
     @ResponseBody
     public BaseResponse update(@RequestParam Map<String, String> param) {
-        return sessionService.destroySession(param);
+        return roleService.update(param);
     }
 
     @RequestMapping("/delete")
     @ResponseBody
     public BaseResponse delete(@RequestParam Map<String, String> param) {
-        return sessionService.destroySession(param);
+        return roleService.delete(param);
     }
 
 

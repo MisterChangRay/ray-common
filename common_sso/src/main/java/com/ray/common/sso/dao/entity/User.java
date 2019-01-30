@@ -13,8 +13,26 @@ public class User {
     private String password;
     private String name;
     private String email;
+    private String idcard;
     private String phone;
+    private String enabled;
 
+
+    public String getIdcard() {
+        return idcard;
+    }
+
+    public void setIdcard(String idcard) {
+        this.idcard = idcard;
+    }
+
+    public String getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(String enabled) {
+        this.enabled = enabled;
+    }
 
     public Integer getId() {
         return id;
