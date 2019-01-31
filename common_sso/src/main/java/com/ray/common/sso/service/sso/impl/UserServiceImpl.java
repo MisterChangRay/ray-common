@@ -62,7 +62,8 @@ public class UserServiceImpl implements UserService {
             return BaseResponse.build(ResponseEnum.FAILURE).setMsg("以下参数必传[username, password, phone]");
         }
         MapBuilder data = MapBuilder.build()
-                .add("username", param.get("username"));
+                .add("username", param.get("username"))
+                .add("deleted", DBEnum.FALSE.getCode());
         BaseResponse<List> baseResponse = this.query(data);
         if(null != baseResponse.getData()) {
             return BaseResponse.build(ResponseEnum.FAILURE).setMsg("用户名已经存在");
@@ -70,7 +71,8 @@ public class UserServiceImpl implements UserService {
 
         data.add("password", param.get("password"))
             .add("phone", param.get("phone"))
-            .add("email", param.get("email"));
+            .add("email", param.get("email"))
+            .add("enabled", DBEnum.TRUE.getCode());
 
         int i = myBatisDao.insert("user.insert", data);
         if (1 == i) return BaseResponse.build(ResponseEnum.SUCCESS);

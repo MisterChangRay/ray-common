@@ -16,8 +16,8 @@ function pagerFilter(res){
                 opts.pageNumber = pageNum;
                 opts.pageSize = pageSize;
                 pager.pagination('refresh',{pageNumber:pageNum,pageSize:pageSize});
-                var param = $.extend({}, opts.queryParams)
-                dg.datagrid('load', param);
+                var param = $.extend({}, opts.queryParams, {page:pageNum, pageSize:pageSize});
+                dg.datagrid('reload', param);
             }
         });
         if (!data.originalRows){
@@ -34,4 +34,20 @@ function onBeforeLoad(param){
     param["page"] = param.page;
     param["pageSize"] = param.rows;
     delete param.rows;
+}
+
+/**
+ * 模板替换 使用 {} 作为占位符
+ * _tpl("test{},{}", 1, 2)
+ * 替换结果 "test1,2"
+ * @returns {*}
+ * @private
+ */
+var strFormat = function(){
+    var arg = arguments;
+    var text = arg[0] + "";
+    for(var i=1; i<arg.length; i++) {
+        text = text.replace("{}", arg[i])
+    }
+    return text;
 }

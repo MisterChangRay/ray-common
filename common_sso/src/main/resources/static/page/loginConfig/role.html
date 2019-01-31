@@ -36,12 +36,17 @@
 <script type="text/javascript" src="/js/common.js"></script>
 <script type="text/javascript">
 
+    var form_role = $('#role-form');
+    var dialog_role = $('#role-dialog');
+    var dataGrid_role = $('#role-datagrid');
+    var input_query_rolename = $("#query_rolename");
+
     /**
      * 查询
      **/
     function query_role() {
-        $('#role-datagrid').datagrid('load', {
-            name:$("#query_rolename").val()
+        dataGrid_role.datagrid('load', {
+            name:input_query_rolename.val()
         });
     }
 
@@ -50,13 +55,14 @@
 	* Name 添加记录
 	*/
 	function add_role(){
-		$('#role-form').form('submit', {
+		form_role.form('submit', {
 			url:'/sso/role/add',
 			success:function(data){
 			    data = JSON.parse(data);
 				if(data && 0 == data.code){
-					$.messager.alert('信息提示','提交成功！','info');
-					$('#wu-dialog').dialog('close');
+					$.messager.alert('信息提示','添加成功！','info');
+                    dialog_role.dialog('close');
+                    dataGrid_role.datagrid('reload');
 				} else {
 					$.messager.alert('信息提示',data.msg,'info');
 				}
@@ -68,15 +74,16 @@
 	* Name 修改记录
 	*/
 	function edit_role(){
-		$('#role-form').form('submit', {
+		form_role.form('submit', {
 			url:'/sso/role/update',
 			success:function(data){
                 data = JSON.parse(data);
                 if(data && 0 == data.code){
-					$.messager.alert('信息提示','提交成功！','info');
-					$('#wu-dialog').dialog('close');
+					$.messager.alert('信息提示','修改成功！','info');
+                    dialog_role.dialog('close');
+                    dataGrid_role.datagrid('reload');
 				} else {
-					$.messager.alert('信息提示','提交失败！','info');
+					$.messager.alert('信息提示',data.msg,'info');
 				}
 			}
 		});
@@ -93,22 +100,22 @@
             1 : "禁用"
         };
 
-        var row = $('#role-datagrid').datagrid('getSelected');
+        var row = dataGrid_role.datagrid('getSelected');
         var urlConfig = {
             0 : "/sso/role/enable",
             1 : "/sso/role/disable"
         };
         if(row) {
-            var msg = "确定要" + enabledTxt[row.enabled] + "角色?";
+            var msg = strFormat("确定要{}角色 {}?", enabledTxt[row.enabled], row.name);
             $.messager.confirm('信息提示',msg, function(result){
                 if(result) {
                     $.ajax({
                         url:urlConfig[row.enabled],
                         data:'id=' + row.id,
                         success:function(data){
-                            data = JSON.parse(data);
                             if(data && 0 == data.code){
                                 $.messager.alert('信息提示', enabledTxt[row.enabled] + '成功！','info');
+                                dataGrid_role.datagrid('reload');
                             } else {
                                 $.messager.alert('信息提示', enabledTxt[row.enabled] + '失败！','info');
                             }
@@ -125,9 +132,9 @@
 	* 删除角色
 	*/
 	function remove_role(){
-        var row = $('#role-datagrid').datagrid('getSelected');
+        var row = dataGrid_role.datagrid('getSelected');
         if(row) {
-            $.messager.confirm('信息提示','确定要删除角色？', function(result){
+            $.messager.confirm('信息提示',strFormat( '确定要删除角色 {}？', row.name), function(result){
                 if(result) {
                     $.ajax({
                         url:'/sso/role/delete',
@@ -136,8 +143,9 @@
                             data = JSON.parse(data);
                             if(data && 0 == data.code){
                                 $.messager.alert('信息提示','删除成功！','info');
+                                dataGrid_role.datagrid('reload');
                             } else {
-                                $.messager.alert('信息提示','删除失败！','info');
+                                $.messager.alert('信息提示',data.msg,'info');
                             }
                         }
                     });
@@ -153,8 +161,8 @@
 	* Name 打开添加窗口
 	*/
 	function openAdd_role(){
-		$('#role-form').form('clear');
-		$('#role-dialog').dialog({
+		form_role.form('clear');
+		dialog_role.dialog({
 			closed: false,
 			modal:true,
             title: "添加信息",
@@ -166,7 +174,7 @@
                 text: '取消',
                 iconCls: 'icon-cancel',
                 handler: function () {
-                    $('#role-dialog').dialog('close');
+                    dialog_role.dialog('close');
                 }
             }]
         });
@@ -176,15 +184,15 @@
 	* Name 打开修改窗口
 	*/
 	function openEdit_role(){
-		$('#role-form').form('clear');
-        var row = $('#role-datagrid').datagrid('getSelected');
+		form_role.form('clear');
+        var row = dataGrid_role.datagrid('getSelected');
         if(row) {
-            $('#role-form').form('load',{
+            form_role.form('load',{
                 id:row.id,
                 name:row.name
             });
 
-            $('#role-dialog').dialog({
+            dialog_role.dialog({
                 closed: false,
                 modal:true,
                 title: "修改信息",
@@ -196,7 +204,7 @@
                     text: '取消',
                     iconCls: 'icon-cancel',
                     handler: function () {
-                        $('#role-dialog').dialog('close');
+                        dialog_role.dialog('close');
                     }
                 }]
             });
@@ -211,7 +219,7 @@
 	/**
 	* 初始化角色数据表格
 	*/
-	$('#role-datagrid').datagrid({
+	dataGrid_role.datagrid({
 		url:'/sso/role/list',
         method:'GET',
 		loadFilter:pagerFilter,

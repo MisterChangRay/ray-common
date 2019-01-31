@@ -22,7 +22,7 @@
 
     <insert id="insert" parameterType="map" keyProperty="id" useGeneratedKeys="true">
         insert into role (name, enabled, deleted)
-        values (#{roleName,jdbcType=VARCHAR},#{enabled,jdbcType=VARCHAR},#{deleted,jdbcType=VARCHAR})
+        values (#{name,jdbcType=VARCHAR},#{enabled,jdbcType=VARCHAR},#{deleted,jdbcType=VARCHAR})
     </insert>
 
 

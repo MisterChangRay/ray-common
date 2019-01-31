@@ -49,6 +49,17 @@ public class RoleController {
     public BaseResponse delete(@RequestParam Map<String, String> param) {
         return roleService.delete(param);
     }
+    @RequestMapping("/enable")
+    @ResponseBody
+    public BaseResponse enable(@RequestParam Map<String, String> param) {
+        return roleService.enable(param);
+    }
+
+    @RequestMapping("/disable")
+    @ResponseBody
+    public BaseResponse disable(@RequestParam Map<String, String> param) {
+        return roleService.disable(param);
+    }
 
 
 }

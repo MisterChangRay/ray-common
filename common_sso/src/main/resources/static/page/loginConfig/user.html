@@ -1,6 +1,6 @@
 <div class="easyui-layout" data-options="fit:true">
     <div data-options="region:'center',border:false">
-    	<!-- Begin of toolbar -->
+        <!-- Begin of toolbar -->
         <div id="user-toolbar">
             <div class="wu-toolbar-button">
                 <a href="#" class="easyui-linkbutton" iconCls="icon-add" onclick="openAdd_user()" plain="true">添加</a>
@@ -20,11 +20,11 @@
 </div>
 
 
-
 <!-- 添加修改用户窗口 -->
-<div id="user-dialog" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:400px; padding:10px;">
-	<form id="user-form" method="post" >
-        <input type="hidden" name="id" class="wu-text" />
+<div id="user-dialog" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'"
+     style="width:400px; padding:10px;">
+    <form id="user-form" method="post">
+        <input type="hidden" name="id" class="wu-text"/>
         <table>
             <tr>
                 <td width="60" align="right">账 号:</td>
@@ -36,19 +36,19 @@
             </tr>
             <tr>
                 <td align="right">手 机:</td>
-                <td><input type="text" name="phone" class="wu-text" /></td>
+                <td><input type="text" name="phone" class="wu-text"/></td>
             </tr>
             <tr>
                 <td align="right">姓 名:</td>
-                <td><input type="text" name="name" class="wu-text" /></td>
+                <td><input type="text" name="name" class="wu-text"/></td>
             </tr>
             <tr>
                 <td align="right">身份证:</td>
-                <td><input type="text" name="idcard" class="wu-text" /></td>
+                <td><input type="text" name="idcard" class="wu-text"/></td>
             </tr>
             <tr>
                 <td align="right">邮 箱:</td>
-                <td><input type="text" name="email" class="wu-text" /></td>
+                <td><input type="text" name="email" class="wu-text"/></td>
             </tr>
         </table>
     </form>
@@ -56,129 +56,138 @@
 
 <script type="text/javascript" src="/js/common.js"></script>
 <script type="text/javascript">
+    var dataGrid_user = $('#user-datagrid'); //用户数据表格
+    var form_user = $('#user-form'); //用户表单
+    var dialog_user = $('#user-dialog'); //用户弹出层
+    var input_query_username = $("#query_username"); // 用户名查询
+    var input_query_phone = $("#query_phone"); //手机号查询
+
 
     /**
      * 查询
      **/
     function query_user() {
-        $('#user-datagrid').datagrid('load', {
-            username:$("#query_username").val(),
-            phone:$("#query_phone").val(),
+        dataGrid_user.datagrid('load', {
+            username: input_query_username.val(),
+            phone: input_query_phone.val(),
         });
     }
 
 
-	/**
-	* Name 添加记录
-	*/
-	function add_user(){
-		$('#user-form').form('submit', {
-			url:'/sso/user/add',
-			success:function(data){
-			    data = JSON.parse(data);
-				if(data && 0 == data.code){
-					$.messager.alert('信息提示','提交成功！','info');
-					$('#wu-dialog').dialog('close');
-				} else {
-					$.messager.alert('信息提示',data.msg,'info');
-				}
-			}
-		});
-	}
-	
-	/**
-	* Name 修改记录
-	*/
-	function edit_user(){
-		$('#user-form').form('submit', {
-			url:'/sso/user/update',
-			success:function(data){
+    /**
+     * Name 添加记录
+     */
+    function add_user() {
+        form_user.form('submit', {
+            url: '/sso/user/add',
+            success: function (data) {
                 data = JSON.parse(data);
-                if(data && 0 == data.code){
-					$.messager.alert('信息提示','提交成功！','info');
-					$('#wu-dialog').dialog('close');
-				} else {
-					$.messager.alert('信息提示','提交失败！','info');
-				}
-			}
-		});
-	}
+                if (data && 0 == data.code) {
+                    $.messager.alert('信息提示', '添加成功！', 'info');
+                    dialog_user.dialog('close');
+                    dataGrid_user.datagrid('reload');
+                } else {
+                    $.messager.alert('信息提示', data.msg, 'info');
+                }
+            }
+        });
+    }
+
+    /**
+     * Name 修改记录
+     */
+    function edit_user() {
+        form_user.form('submit', {
+            url: '/sso/user/update',
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data && 0 == data.code) {
+                    $.messager.alert('信息提示', '修改成功！', 'info');
+                    dialog_user.dialog('close');
+                    dataGrid_user.datagrid('reload');
+                } else {
+                    $.messager.alert('信息提示', data.msg, 'info');
+                }
+            }
+        });
+    }
 
 
     /**
      * 禁启用用户
      * 禁用或者启用用户
      */
-    function switchEnable_user(){
+    function switchEnable_user() {
         var enabledTxt = {
-            0 : "启用",
-            1 : "禁用"
+            0: "启用",
+            1: "禁用"
         };
 
-        var row = $('#user-datagrid').datagrid('getSelected');
+        var row = dataGrid_user.datagrid('getSelected');
         var urlConfig = {
-            0 : "/sso/user/enable",
-            1 : "/sso/user/disable"
+            0: "/sso/user/enable",
+            1: "/sso/user/disable"
         };
-        if(row) {
-            var msg = "确定要" + enabledTxt[row.enabled] + "用户?";
-            $.messager.confirm('信息提示',msg, function(result){
-                if(result) {
+        if (row) {
+            var msg = strFormat("确定要{}用户 {}?", enabledTxt[row.enabled], row.username);
+            $.messager.confirm('信息提示', msg, function (result) {
+                if (result) {
                     $.ajax({
-                        url:urlConfig[row.enabled],
-                        data:'id=' + row.id,
-                        success:function(data){
-                            data = JSON.parse(data);
-                            if(data && 0 == data.code){
-                                $.messager.alert('信息提示', enabledTxt[row.enabled] + '成功！','info');
+                        url: urlConfig[row.enabled],
+                        data: 'id=' + row.id,
+                        success: function (data) {
+                            if (data && 0 == data.code) {
+                                dataGrid_user.datagrid('reload');
+                                $.messager.alert('信息提示', enabledTxt[row.enabled] + '成功！', 'info');
                             } else {
-                                $.messager.alert('信息提示', enabledTxt[row.enabled] + '失败！','info');
+                                $.messager.alert('信息提示', enabledTxt[row.enabled] + '失败！', 'info');
                             }
                         }
                     });
                 }
             });
         } else {
-            $.messager.alert('Warning','请先选中欲操作的用户');
+            $.messager.alert('Warning', '请先选中欲操作的用户');
         }
     }
 
-	/**
-	* 删除用户
-	*/
-	function remove_user(){
-        var row = $('#user-datagrid').datagrid('getSelected');
-        if(row) {
-            $.messager.confirm('信息提示','确定要删除用户？', function(result){
-                if(result) {
+    /**
+     * 删除用户
+     */
+    function remove_user() {
+        var row = dataGrid_user.datagrid('getSelected');
+        if (row) {
+            $.messager.confirm('信息提示',strFormat( '确定要删除用户 {}？', row.username), function (result) {
+                if (result) {
                     $.ajax({
-                        url:'/sso/user/delete',
-                        data:'id=' + row.id,
-                        success:function(data){
+                        url: '/sso/user/delete',
+                        data: 'id=' + row.id,
+                        success: function (data) {
                             data = JSON.parse(data);
-                            if(data && 0 == data.code){
-                                $.messager.alert('信息提示','删除成功！','info');
+                            if (data && 0 == data.code) {
+                                dataGrid_user.datagrid('reload');
+                                $.messager.alert('信息提示', '删除成功！', 'info');
                             } else {
-                                $.messager.alert('信息提示','删除失败！','info');
+                                $.messager.alert('信息提示', data.msg, 'info');
                             }
                         }
                     });
                 }
             });
         } else {
-            $.messager.alert('Warning','请先选中欲操作的用户');
+            $.messager.alert('Warning', '请先选中欲操作的用户');
         }
 
-	}
-	
-	/**
-	* Name 打开添加窗口
-	*/
-	function openAdd_user(){
-		$('#user-form').form('clear');
-		$('#user-dialog').dialog({
-			closed: false,
-			modal:true,
+    }
+
+    /**
+     * Name 打开添加窗口
+     */
+    function openAdd_user() {
+        form_user.form('clear');
+        dialog_user.dialog({
+            closed: false,
+            modal: true,
             title: "添加信息",
             buttons: [{
                 text: '确定',
@@ -188,32 +197,32 @@
                 text: '取消',
                 iconCls: 'icon-cancel',
                 handler: function () {
-                    $('#user-dialog').dialog('close');
+                    dialog_user.dialog('close');
                 }
             }]
         });
-	}
-	
-	/**
-	* Name 打开修改窗口
-	*/
-	function openEdit_user(){
-		$('#user-form').form('clear');
-        var row = $('#user-datagrid').datagrid('getSelected');
-        if(row) {
-            $('#user-form').form('load',{
-                id:row.id,
-                username:row.username,
-                password:row.password,
-                idcard:row.idcard,
+    }
+
+    /**
+     * Name 打开修改窗口
+     */
+    function openEdit_user() {
+        form_user.form('clear');
+        var row = dataGrid_user.datagrid('getSelected');
+        if (row) {
+            form_user.form('load', {
+                id: row.id,
+                username: row.username,
+                password: row.password,
+                idcard: row.idcard,
                 email: row.email,
-                name : row.name,
+                name: row.name,
                 phone: row.phone
             });
 
-            $('#user-dialog').dialog({
+            dialog_user.dialog({
                 closed: false,
-                modal:true,
+                modal: true,
                 title: "修改信息",
                 buttons: [{
                     text: '确定',
@@ -223,43 +232,44 @@
                     text: '取消',
                     iconCls: 'icon-cancel',
                     handler: function () {
-                        $('#user-dialog').dialog('close');
+                        dialog_user.dialog('close');
                     }
                 }]
             });
         } else {
-            $.messager.alert('Warning','请先选中欲操作的用户');
+            $.messager.alert('Warning', '请先选中欲操作的用户');
         }
 
-	}
+    }
 
 
-
-	/**
-	* 初始化用户数据表格
-	*/
-	$('#user-datagrid').datagrid({
-		url:'/sso/user/list',
-        method:'GET',
-		loadFilter:pagerFilter,
-        onBeforeLoad:onBeforeLoad,
-		rownumbers:true,
-		singleSelect:true,
-		pageSize:20,           
-		pagination:true,
-		multiSort:true,
-		fitColumns:true,
-		fit:true,
-		columns:[[
-			{ checkbox:true},
-			{ field:'username',title:'账号',width:80,sortable:true},
-			{ field:'name',title:'姓名',width:80,sortable:true},
-            { field:'idcard',title:'身份证',width:100},
-			{ field:'phone',title:'手机',width:80},
-			{ field:'email',title:'邮箱',width:100},
-			{ field:'enabled',title:'已启用',width:50, formatter: function(value,row,index){
-			    return 1 == value ? "是" : "否";
-            }}
-		]]
-	});
+    /**
+     * 初始化用户数据表格
+     */
+    dataGrid_user.datagrid({
+        url: '/sso/user/list',
+        method: 'GET',
+        loadFilter: pagerFilter,
+        onBeforeLoad: onBeforeLoad,
+        rownumbers: true,
+        singleSelect: true,
+        pageSize: 20,
+        pagination: true,
+        multiSort: true,
+        fitColumns: true,
+        fit: true,
+        columns: [[
+            {checkbox: true},
+            {field: 'username', title: '账号', width: 80, sortable: true},
+            {field: 'name', title: '姓名', width: 80, sortable: true},
+            {field: 'idcard', title: '身份证', width: 100},
+            {field: 'phone', title: '手机', width: 80},
+            {field: 'email', title: '邮箱', width: 100},
+            {
+                field: 'enabled', title: '已启用', width: 50, formatter: function (value, row, index) {
+                return 1 == value ? "是" : "否";
+            }
+            }
+        ]]
+    });
 </script>

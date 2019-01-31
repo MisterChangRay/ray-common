@@ -62,13 +62,14 @@ public class RoleServiceImpl implements RoleService {
             return BaseResponse.build(ResponseEnum.FAILURE).setMsg("以下参数必传[name]");
         }
         MapBuilder data = MapBuilder.build()
+                .add("deleted", DBEnum.FALSE.getCode())
                 .add("name", param.get("name"));
         BaseResponse<List> baseResponse = this.query(data);
         if(null != baseResponse.getData()) {
             return BaseResponse.build(ResponseEnum.FAILURE).setMsg("角色已经存在");
         }
 
-        data.add("name", param.get("name"));
+        data.add("enabled", DBEnum.TRUE.getCode());
 
         int i = myBatisDao.insert("role.insert", data);
         if (1 == i) return BaseResponse.build(ResponseEnum.SUCCESS);

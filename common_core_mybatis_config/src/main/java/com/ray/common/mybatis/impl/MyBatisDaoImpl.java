@@ -1,6 +1,7 @@
 package com.ray.common.mybatis.impl;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.pool.DruidPooledConnection;
 import com.ray.common.core.BaseResponse;
 import com.ray.common.core.PageInfo;
 import com.ray.common.core.enums.ResponseEnum;
@@ -56,14 +57,20 @@ public class MyBatisDaoImpl<T> implements MyBatisDao<T> {
         //1.组装查询总记录sql
         String countSql = baseSql.replaceFirst("(?i)SELECT.+?FROM ", "SELECT COUNT(1) COUNT FROM ");
         PreparedStatement preparedStatement = null;
+        DruidPooledConnection druidPooledConnection = null;
         PageInfo pageInfo = new PageInfo();
         try {
-            preparedStatement =  druidDataSource.getConnection().prepareStatement(countSql);
+            druidPooledConnection = druidDataSource.getConnection();
+            preparedStatement =  druidPooledConnection.prepareStatement(countSql);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             pageInfo.setPage(Integer.valueOf(param.get("page")));
             pageInfo.setPageSize(Integer.valueOf(param.get("pageSize")));
             pageInfo.setCount(resultSet.getLong("count"));
+
+            resultSet.close();
+            preparedStatement.close();
+            druidPooledConnection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
