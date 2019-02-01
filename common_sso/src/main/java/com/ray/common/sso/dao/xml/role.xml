@@ -3,7 +3,7 @@
 <mapper namespace="role">
 
     <select id="query" resultType="map" parameterType="map">
-        select id,name,enabled,deleted from role
+        select id,name,enabled from role
         <where>
             <if test="id != null and id != ''">
                 and id = #{id}

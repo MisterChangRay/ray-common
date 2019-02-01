@@ -26,11 +26,12 @@
     <!-- begin of sidebar -->
 	<div class="wu-sidebar" data-options="region:'west',split:true,border:true,title:'菜单导航'">
     	<div class="easyui-accordion" data-options="border:false,fit:true" id="nav">
-            <div title="登录配置" data-options="iconCls:'icon-application-form-edit'" style="padding:5px;">
+            <div title="系统配置" data-options="iconCls:'icon-cog'" style="padding:5px;">
                 <ul class="easyui-tree wu-side-tree">
-                    <li iconCls="icon-chart-organisation"><a href="javascript:void(0)" data-icon="icon-chart-organisation" data-link="page/loginConfig/user.html" iframe="0">用户管理</a></li>
-                    <li iconCls="icon-users"><a href="javascript:void(0)" data-icon="icon-users" data-link="page/loginConfig/permission.html" iframe="0">权限管理</a></li>
+                    <li iconCls="icon-user"><a href="javascript:void(0)" data-icon="icon-user" data-link="page/loginConfig/user.html" iframe="0">用户管理</a></li>
                     <li iconCls="icon-user-group"><a href="javascript:void(0)" data-icon="icon-user-group" data-link="page/loginConfig/role.html" iframe="0">角色管理</a></li>
+                    <li iconCls="icon-lock"><a href="javascript:void(0)" data-icon="icon-lock" data-link="page/loginConfig/permission.html" iframe="0">权限管理</a></li>
+                    <li iconCls="icon-book"><a href="javascript:void(0)" data-icon="icon-book" data-link="page/constConfig/const.html" iframe="0">数据字典配置</a></li>
                 </ul>
             </div>
             <!--  example code
@@ -71,7 +72,7 @@
     <!-- begin of main -->
     <div class="wu-main" data-options="region:'center'">
         <div id="wu-tabs" class="easyui-tabs" data-options="border:false,fit:true">  
-            <div title="首页" data-options="href:'page/start.html',closable:false,iconCls:'icon-tip',cls:'pd3'"></div>
+            <div title="首页" data-options="href:'page/main.html',closable:false,iconCls:'icon-tip',cls:'pd3'"></div>
         </div>
     </div>
     <!-- end of main --> 

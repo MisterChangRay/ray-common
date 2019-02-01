@@ -1,7 +1,7 @@
 package com.ray.common.sso.dao.entity;
 
 /**
- * 文件名：AlipayController.java
+ * 文件名：User.java
  * 版权：Copyright by www.rsrtech.net
  * 修改人：Zhang.Rui
  * 修改时间：2019/1/23

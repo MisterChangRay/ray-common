@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="permission">
-    <select id="query" resultType="com.ray.common.sso.dao.entity.User" parameterType="map">
-        select id,name,uri,type,puri,deleted from permission
+    <select id="query" resultType="map" parameterType="map">
+        select id,name,uri,type,puri,enabled from permission
         <where>
             <if test="id != null and id != ''">
                 and id = #{id}
             </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
             <if test="type != null and type != ''">
                 and type = #{type}
+            </if>
+            <if test="uri != null and uri != ''">
+                and uri = #{uri}
             </if>
             <if test="puri != null and puri != ''">
                 and puri = #{puri}
@@ -23,10 +29,10 @@
     </select>
 
     <insert id="insert" parameterType="map" keyProperty="id" useGeneratedKeys="true">
-        insert into permission (name, uri, type, puri)
+        insert into permission (name, type, uri, puri)
         values (
-        #{name,jdbcType=VARCHAR},#{uri,jdbcType=VARCHAR},
-        #{type,jdbcType=VARCHAR},#{puri,jdbcType=VARCHAR}
+        #{name,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR},
+        #{uri,jdbcType=VARCHAR},#{puri,jdbcType=VARCHAR}
         )
     </insert>
 
@@ -35,19 +41,22 @@
         update permission
         <set>
             <if test="name != null">
-                name = #{name,jdbcType=TINYINT},
-            </if>
-            <if test="uri != null">
-                uri = #{uri,jdbcType=TIMESTAMP},
+                name = #{name,jdbcType=VARCHAR},
             </if>
             <if test="type != null">
                 type = #{type,jdbcType=VARCHAR},
             </if>
+            <if test="uri != null">
+                uri = #{uri,jdbcType=VARCHAR},
+            </if>
             <if test="puri != null">
                 puri = #{puri,jdbcType=VARCHAR},
             </if>
+            <if test="enabled != null">
+                enabled = #{enabled,jdbcType=VARCHAR},
+            </if>
             <if test="deleted != null">
-                deleted = #{deleted,jdbcType=TIMESTAMP},
+                deleted = #{deleted,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

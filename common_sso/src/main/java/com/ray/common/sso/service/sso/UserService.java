@@ -16,6 +16,7 @@ public interface UserService {
     BaseResponse<List<User>> query(Map<String, String> param);
 
     BaseResponse enable(Map<String, String> param);
+
     BaseResponse disable(Map<String, String> param);
 
     BaseResponse add(Map<String, String> param);

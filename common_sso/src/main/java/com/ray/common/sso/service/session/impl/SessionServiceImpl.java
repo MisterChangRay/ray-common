@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * 文件名：AlipayController.java
+ * 文件名：SessionServiceImpl.java
  * 版权：Copyright by www.rsrtech.net
  * 修改人：Zhang.Rui
  * 修改时间：2019/1/17

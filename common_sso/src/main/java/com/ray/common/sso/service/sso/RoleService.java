@@ -12,6 +12,7 @@ import java.util.Map;
  */
 public interface RoleService {
     BaseResponse query(Map<String, String> param);
+
     BaseResponse add(Map<String, String> param);
 
     BaseResponse delete(Map<String, String> param);
@@ -19,5 +20,6 @@ public interface RoleService {
     BaseResponse update(Map<String, String> param);
 
     BaseResponse enable(Map<String, String> param);
+
     BaseResponse disable(Map<String, String> param);
 }

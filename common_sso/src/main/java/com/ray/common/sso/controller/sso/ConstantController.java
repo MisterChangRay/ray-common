@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Map;
 
 /**
- * 文件名：AlipayController.java
+ * 文件名：ConstantController.java
  * 版权：Copyright by www.rsrtech.net
  * 修改人：Zhang.Rui
  * 修改时间：2019/1/17
- * 描述：
  * 配置中心
+ * 描述：
+ * 全局常量配置表;
+ * 此表再系统初始化后会初始化到redis中
  */
 @Controller
 @RequestMapping("/sso/constant")

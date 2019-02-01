@@ -11,6 +11,8 @@ import java.util.Map;
  * @author Created on 3/20/2018.
  */
 public interface PermissionService {
+    BaseResponse query(Map<String, String> param);
+
     BaseResponse add(Map<String, String> param);
 
     BaseResponse delete(Map<String, String> param);
@@ -18,5 +20,6 @@ public interface PermissionService {
     BaseResponse update(Map<String, String> param);
 
     BaseResponse enable(Map<String, String> param);
+
     BaseResponse disable(Map<String, String> param);
 }

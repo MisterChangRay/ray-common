@@ -1,0 +1,266 @@
+<div class="easyui-layout" data-options="fit:true">
+    <div data-options="region:'west',border:true,split:true," title="树状展示" style="width:150px; padding:5px;">
+        <ul id="wu-category-tree" class="easyui-tree"></ul>
+    </div>
+    <div data-options="region:'center',border:false">
+        <!-- Begin of toolbar -->
+        <div id="const-toolbar">
+            <div class="wu-toolbar-button">
+                <a href="#" class="easyui-linkbutton" iconCls="icon-add" onclick="openAdd_const()" plain="true">添加</a>
+                <a href="#" class="easyui-linkbutton" iconCls="icon-edit" onclick="openEdit_const()" plain="true">修改</a>
+                <a href="#" class="easyui-linkbutton" iconCls="icon-remove" onclick="switchEnable_const()" plain="true">禁启用</a>
+                <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="remove_const()" plain="true">删除</a>
+            </div>
+            <div class="wu-toolbar-search">
+                <label>代码：</label><input id="query_const_code" class="wu-text" style="width:100px">
+                <a onclick="query_const()" href="#" class="easyui-linkbutton" iconCls="icon-search">搜索</a>
+            </div>
+        </div>
+        <!-- End of toolbar -->
+        <table id="const-datagrid" toolbar="#const-toolbar"></table>
+    </div>
+</div>
+
+
+<!-- 添加修改常量窗口 -->
+<div id="const-dialog" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'"
+     style="width:400px; padding:10px;">
+    <form id="const-form" method="post">
+        <input type="hidden" name="id" class="wu-text"/>
+        <table>
+            <tr>
+                <td width="60" align="right">名 称:</td>
+                <td><input type="text" name="name" class="wu-text" required/></td>
+            </tr>
+            <tr>
+                <td width="60" align="right">类 型:</td>
+                <td><input type="text" name="type" class="wu-text" required/></td>
+            </tr>
+            <tr>
+                <td align="right">uri:</td>
+                <td><input type="text" name="uri" class="wu-text"/></td>
+            </tr>
+            <tr>
+                <td align="right">puri:</td>
+                <td><input type="text" name="puri" class="wu-text"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript">
+    var dataGrid_const = $('#const-datagrid'); //常量数据表格
+    var form_const = $('#const-form'); //常量表单
+    var dialog_const = $('#const-dialog'); //常量弹出层
+    var input_query_constName = $("#query_constname"); // 常量名称查询
+    var input_query_puri = $("#query_puri"); //常量puri查询
+
+
+    /**
+     * 查询
+     **/
+    function query_const() {
+        dataGrid_const.datagrid('load', {
+            name: input_query_constName.val(),
+            puri: input_query_puri.val(),
+        });
+    }
+
+
+    /**
+     * Name 添加记录
+     */
+    function add_const() {
+        form_const.form('submit', {
+            url: '/sso/const/add',
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data && 0 == data.code) {
+                    $.messager.alert('信息提示', '添加成功！', 'info');
+                    dialog_const.dialog('close');
+                    dataGrid_const.datagrid('reload');
+                } else {
+                    $.messager.alert('信息提示', data.msg, 'info');
+                }
+            }
+        });
+    }
+
+    /**
+     * Name 修改记录
+     */
+    function edit_const() {
+        form_const.form('submit', {
+            url: '/sso/const/update',
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data && 0 == data.code) {
+                    $.messager.alert('信息提示', '修改成功！', 'info');
+                    dialog_const.dialog('close');
+                    dataGrid_const.datagrid('reload');
+                } else {
+                    $.messager.alert('信息提示', data.msg, 'info');
+                }
+            }
+        });
+    }
+
+
+    /**
+     * 禁启用常量
+     * 禁用或者启用常量
+     */
+    function switchEnable_const() {
+        var enabledTxt = {
+            0: "启用",
+            1: "禁用"
+        };
+
+        var row = dataGrid_const.datagrid('getSelected');
+        var urlConfig = {
+            0: "/sso/const/enable",
+            1: "/sso/const/disable"
+        };
+        if (row) {
+            var msg = strFormat("确定要{}常量 {}?", enabledTxt[row.enabled], row.name);
+            $.messager.confirm('信息提示', msg, function (result) {
+                if (result) {
+                    $.ajax({
+                        url: urlConfig[row.enabled],
+                        data: 'id=' + row.id,
+                        success: function (data) {
+                            if (data && 0 == data.code) {
+                                dataGrid_const.datagrid('reload');
+                                $.messager.alert('信息提示', enabledTxt[row.enabled] + '成功！', 'info');
+                            } else {
+                                $.messager.alert('信息提示', enabledTxt[row.enabled] + '失败！', 'info');
+                            }
+                        }
+                    });
+                }
+            });
+        } else {
+            $.messager.alert('Warning', '请先选中欲操作的常量');
+        }
+    }
+
+    /**
+     * 删除
+     */
+    function remove_const() {
+        var row = dataGrid_const.datagrid('getSelected');
+        if (row) {
+            $.messager.confirm('信息提示',strFormat( '确定要删除常量 {}？', row.name), function (result) {
+                if (result) {
+                    $.ajax({
+                        url: '/sso/const/delete',
+                        data: 'id=' + row.id,
+                        success: function (data) {
+                            data = JSON.parse(data);
+                            if (data && 0 == data.code) {
+                                dataGrid_const.datagrid('reload');
+                                $.messager.alert('信息提示', '删除成功！', 'info');
+                            } else {
+                                $.messager.alert('信息提示', data.msg, 'info');
+                            }
+                        }
+                    });
+                }
+            });
+        } else {
+            $.messager.alert('Warning', '请先选中欲操作的常量');
+        }
+
+    }
+
+    /**
+     * Name 打开添加窗口
+     */
+    function openAdd_const() {
+        form_const.form('clear');
+        dialog_const.dialog({
+            closed: false,
+            modal: true,
+            title: "添加信息",
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: add_const
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    dialog_const.dialog('close');
+                }
+            }]
+        });
+    }
+
+    /**
+     * Name 打开修改窗口
+     */
+    function openEdit_const() {
+        form_const.form('clear');
+        var row = dataGrid_const.datagrid('getSelected');
+        if (row) {
+            form_const.form('load', {
+                id: row.id,
+                name: row.name,
+                type: row.type,
+                uri: row.uri,
+                puri: row.puri
+            });
+
+            dialog_const.dialog({
+                closed: false,
+                modal: true,
+                title: "修改信息",
+                buttons: [{
+                    text: '确定',
+                    iconCls: 'icon-ok',
+                    handler: edit_const
+                }, {
+                    text: '取消',
+                    iconCls: 'icon-cancel',
+                    handler: function () {
+                        dialog_const.dialog('close');
+                    }
+                }]
+            });
+        } else {
+            $.messager.alert('Warning', '请先选中欲操作的常量');
+        }
+
+    }
+
+
+    /**
+     * 初始化常量数据表格
+     */
+    dataGrid_const.datagrid({
+        url: '/sso/const/list',
+        method: 'GET',
+        loadFilter: pagerFilter,
+        onBeforeLoad: onBeforeLoad,
+        rownumbers: true,
+        singleSelect: true,
+        pageSize: 20,
+        pagination: true,
+        multiSort: true,
+        fitColumns: true,
+        fit: true,
+        columns: [[
+            {checkbox: true},
+            {field: 'name', title: '名称', width: 80, sortable: true},
+            {field: 'type', title: '类型', width: 80},
+            {field: 'uri', title: '路径', width: 80, sortable: true},
+            {field: 'puri', title: '父路径', width: 100},
+            {
+                field: 'enabled', title: '已启用', width: 50, formatter: function (value, row, index) {
+                return 1 == value ? "是" : "否";
+            }
+            }
+        ]]
+    });
+</script>
