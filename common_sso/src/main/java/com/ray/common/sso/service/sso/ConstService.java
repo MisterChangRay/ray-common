@@ -16,7 +16,13 @@ public interface ConstService {
 
     BaseResponse delete(Map<String, String> param);
 
-    BaseResponse edit(Map<String, String> param);
+    BaseResponse update(Map<String, String> param);
 
     BaseResponse query(Map<String, String> param);
+
+    BaseResponse queryWithPage(Map<String, String> param);
+
+    BaseResponse enable(Map<String, String> param);
+
+    BaseResponse disable(Map<String, String> param);
 }

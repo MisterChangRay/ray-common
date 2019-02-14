@@ -3,9 +3,9 @@ package com.ray.common.sso.controller.sso;
 import com.ray.common.core.BaseResponse;
 import com.ray.common.sso.service.sso.ConstService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -29,16 +29,16 @@ public class ConstantController {
 
 
 
-    @RequestMapping("/add")
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse add(@RequestParam Map<String, String> param) {
         return constService.add(param);
     }
 
-    @RequestMapping("/update")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse update(@RequestParam Map<String, String> param) {
-        return constService.edit(param);
+        return constService.update(param);
     }
 
     @RequestMapping("/delete")
@@ -50,7 +50,19 @@ public class ConstantController {
     @RequestMapping("/query")
     @ResponseBody
     public BaseResponse query(@RequestParam Map<String, String> param) {
-        return constService.query(param);
+        return constService.queryWithPage(param);
     }
 
+
+    @RequestMapping("/enable")
+    @ResponseBody
+    public BaseResponse enable(@RequestParam Map<String, String> param) {
+        return constService.enable(param);
+    }
+
+    @RequestMapping("/disable")
+    @ResponseBody
+    public BaseResponse disable(@RequestParam Map<String, String> param) {
+        return constService.disable(param);
+    }
 }

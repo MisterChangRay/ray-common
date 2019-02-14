@@ -27,6 +27,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public BaseResponse<List<User>> query(Map<String, String> param) {
+        if(null == param) param = MapBuilder.build();
+        param.put("deleted", DBEnum.FALSE.getCode().toString());
         return myBatisDao.queryWithPage("user.query", param);
     }
 
@@ -70,6 +72,8 @@ public class UserServiceImpl implements UserService {
         }
 
         data.add("password", param.get("password"))
+            .add("name", param.get("name"))
+            .add("idcard", param.get("idcard"))
             .add("phone", param.get("phone"))
             .add("email", param.get("email"))
             .add("enabled", DBEnum.TRUE.getCode());

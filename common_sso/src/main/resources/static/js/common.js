@@ -3,7 +3,7 @@
  */
 function pagerFilter(res){
     var data = {total:0, rows:0};
-    if(res && 0 == res.code) {
+    if(res && 0 == res.code && res.pageInfo) {
         data = {
             total: res.pageInfo.count,
             rows: res.data

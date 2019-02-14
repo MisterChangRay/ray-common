@@ -33,10 +33,10 @@
 
 
     <insert id="insert" parameterType="map" keyProperty="id" useGeneratedKeys="true">
-        insert into user (username, password, idcard, name, email, phone)
+        insert into user (username, password, idcard, name, email, phone, enabled, deleted)
         values (
             #{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{idcard,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},
-            #{email,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR}
+            #{email,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{enabled,jdbcType=VARCHAR},#{deleted,jdbcType=VARCHAR}
         )
     </insert>
 

@@ -5,10 +5,20 @@
         select id,name,shortcut,pid,has_child,enabled,deleted,extra,priority from constant
         <where>
             <if test="id != null and id != ''">
-                and id = #{username}
+                and id = #{id}
             </if>
-            <if test="pid != null and pid != ''">
+            <if test="name != null and name != ''">
+                and name like '${name}%'
+            </if>
+            <if test="pid != null and pid != 'null'">
                 and pid = #{pid}
+            </if>
+            <if test="pid != null and pid == 'null'">
+                and pid is null
+            </if>
+            <!-- 查询所有下级 ,直接下级,间接下级全部查询出来 -->
+            <if test="matchById != null and matchById != ''">
+                and id like '${matchById}%'
             </if>
             <if test="enabled != null and enabled != ''">
                 and enabled = #{enabled}
@@ -19,4 +29,41 @@
         </where>
     </select>
 
+    <insert id="insert" parameterType="map" keyProperty="id" useGeneratedKeys="true">
+        insert into constant (id, name, shortcut, pid, has_child, extra, priority, enabled, deleted)
+        values (
+        #{id,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{shortcut,jdbcType=VARCHAR},#{pid,jdbcType=VARCHAR},
+        #{has_child,jdbcType=VARCHAR},#{extra,jdbcType=VARCHAR},#{priority,jdbcType=VARCHAR},
+        #{enabled,jdbcType=VARCHAR},#{deleted,jdbcType=VARCHAR}
+        )
+    </insert>
+
+
+    <update id="update" parameterType="map">
+        update constant
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="shortcut != null and shortcut != ''">
+                shortcut = #{shortcut,jdbcType=VARCHAR},
+            </if>
+            <if test="extra != null and extra != ''">
+                extra = #{extra,jdbcType=VARCHAR},
+            </if>
+            <if test="has_child != null">
+                has_child = #{has_child,jdbcType=VARCHAR},
+            </if>
+            <if test="priority != null">
+                priority = #{priority,jdbcType=VARCHAR},
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled,jdbcType=VARCHAR},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

@@ -28,6 +28,8 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public BaseResponse<List<User>> query(Map<String, String> param) {
+        if(null == param) param = MapBuilder.build();
+        param.put("deleted",DBEnum.FALSE.getCode().toString());
         return myBatisDao.queryWithPage("permission.query", param);
     }
 

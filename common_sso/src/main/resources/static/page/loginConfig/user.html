@@ -3,10 +3,12 @@
         <!-- Begin of toolbar -->
         <div id="user-toolbar">
             <div class="wu-toolbar-button">
+                <a href="#" class="easyui-linkbutton" iconCls="icon-refresh" onclick="refresh_user()" plain="true">刷新</a>
                 <a href="#" class="easyui-linkbutton" iconCls="icon-add" onclick="openAdd_user()" plain="true">添加</a>
                 <a href="#" class="easyui-linkbutton" iconCls="icon-edit" onclick="openEdit_user()" plain="true">修改</a>
                 <a href="#" class="easyui-linkbutton" iconCls="icon-remove" onclick="switchEnable_user()" plain="true">禁启用</a>
                 <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="remove_user()" plain="true">删除</a>
+                <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="openEditRoleConfig_user()" plain="true">角色配置</a>
             </div>
             <div class="wu-toolbar-search">
                 <label>用户名：</label><input id="query_username" class="wu-text" style="width:100px">
@@ -64,6 +66,21 @@
 
 
     /**
+     *
+     * 为用户配置角色
+     **/
+    function openEditRoleConfig_user() {
+
+    }
+
+    /**
+     * 刷新
+     **/
+    function refresh_user() {
+        dataGrid_user.datagrid('reload');
+    }
+
+    /**
      * 查询
      **/
     function query_user() {
@@ -85,7 +102,7 @@
                 if (data && 0 == data.code) {
                     $.messager.alert('信息提示', '添加成功！', 'info');
                     dialog_user.dialog('close');
-                    dataGrid_user.datagrid('reload');
+                    refresh_user();
                 } else {
                     $.messager.alert('信息提示', data.msg, 'info');
                 }
@@ -104,7 +121,7 @@
                 if (data && 0 == data.code) {
                     $.messager.alert('信息提示', '修改成功！', 'info');
                     dialog_user.dialog('close');
-                    dataGrid_user.datagrid('reload');
+                    refresh_user();
                 } else {
                     $.messager.alert('信息提示', data.msg, 'info');
                 }
@@ -137,7 +154,7 @@
                         data: 'id=' + row.id,
                         success: function (data) {
                             if (data && 0 == data.code) {
-                                dataGrid_user.datagrid('reload');
+                                refresh_user();
                                 $.messager.alert('信息提示', enabledTxt[row.enabled] + '成功！', 'info');
                             } else {
                                 $.messager.alert('信息提示', enabledTxt[row.enabled] + '失败！', 'info');
@@ -163,10 +180,9 @@
                         url: '/sso/user/delete',
                         data: 'id=' + row.id,
                         success: function (data) {
-                            data = JSON.parse(data);
                             if (data && 0 == data.code) {
-                                dataGrid_user.datagrid('reload');
                                 $.messager.alert('信息提示', '删除成功！', 'info');
+                                refresh_user();
                             } else {
                                 $.messager.alert('信息提示', data.msg, 'info');
                             }

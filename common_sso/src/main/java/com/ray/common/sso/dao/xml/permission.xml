@@ -29,10 +29,11 @@
     </select>
 
     <insert id="insert" parameterType="map" keyProperty="id" useGeneratedKeys="true">
-        insert into permission (name, type, uri, puri)
+        insert into permission (name, type, uri, puri,enabled,deleted)
         values (
         #{name,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR},
-        #{uri,jdbcType=VARCHAR},#{puri,jdbcType=VARCHAR}
+        #{uri,jdbcType=VARCHAR},#{puri,jdbcType=VARCHAR},
+        #{enabled,jdbcType=VARCHAR},#{deleted,jdbcType=VARCHAR}
         )
     </insert>
 

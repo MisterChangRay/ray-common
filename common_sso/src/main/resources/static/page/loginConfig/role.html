@@ -3,10 +3,12 @@
     	<!-- Begin of toolbar -->
         <div id="role-toolbar">
             <div class="wu-toolbar-button">
+                <a href="#" class="easyui-linkbutton" iconCls="icon-refresh" onclick="refresh_role()" plain="true">刷新</a>
                 <a href="#" class="easyui-linkbutton" iconCls="icon-add" onclick="openAdd_role()" plain="true">添加</a>
                 <a href="#" class="easyui-linkbutton" iconCls="icon-edit" onclick="openEdit_role()" plain="true">修改</a>
                 <a href="#" class="easyui-linkbutton" iconCls="icon-remove" onclick="switchEnable_role()" plain="true">禁启用</a>
                 <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="remove_role()" plain="true">删除</a>
+                <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="openEditPermissionConfig_role()" plain="true">权限配置</a>
             </div>
             <div class="wu-toolbar-search">
                 <label>角色名：</label><input id="query_rolename" class="wu-text" style="width:100px">
@@ -33,6 +35,19 @@
     </form>
 </div>
 
+<!-- 添加修改角色窗口 -->
+<div id="role-permission-dialog" class="easyui-dialog" data-options="closed:true,iconCls:'icon-save'" style="width:400px; padding:10px;">
+    <form id="role-permission-form" method="post" >
+        <input type="hidden" name="id" class="wu-text" />
+        <table>
+            <tr>
+                <td width="60" align="right">角色名:</td>
+                <td><input type="text" name="name" class="wu-text" required/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
 <script type="text/javascript" src="/js/common.js"></script>
 <script type="text/javascript">
 
@@ -40,6 +55,18 @@
     var dialog_role = $('#role-dialog');
     var dataGrid_role = $('#role-datagrid');
     var input_query_rolename = $("#query_rolename");
+
+
+    /**
+     * 为角色配置权限
+     **/
+    function openEditPermissionConfig_role() {
+
+    }
+
+    function refresh_role() {
+        dataGrid_role.datagrid('reload');
+    }
 
     /**
      * 查询
@@ -62,7 +89,7 @@
 				if(data && 0 == data.code){
 					$.messager.alert('信息提示','添加成功！','info');
                     dialog_role.dialog('close');
-                    dataGrid_role.datagrid('reload');
+                    refresh_role();
 				} else {
 					$.messager.alert('信息提示',data.msg,'info');
 				}
@@ -81,7 +108,7 @@
                 if(data && 0 == data.code){
 					$.messager.alert('信息提示','修改成功！','info');
                     dialog_role.dialog('close');
-                    dataGrid_role.datagrid('reload');
+                    refresh_role();
 				} else {
 					$.messager.alert('信息提示',data.msg,'info');
 				}
@@ -115,7 +142,7 @@
                         success:function(data){
                             if(data && 0 == data.code){
                                 $.messager.alert('信息提示', enabledTxt[row.enabled] + '成功！','info');
-                                dataGrid_role.datagrid('reload');
+                                refresh_role();
                             } else {
                                 $.messager.alert('信息提示', enabledTxt[row.enabled] + '失败！','info');
                             }
@@ -140,10 +167,9 @@
                         url:'/sso/role/delete',
                         data:'id=' + row.id,
                         success:function(data){
-                            data = JSON.parse(data);
                             if(data && 0 == data.code){
                                 $.messager.alert('信息提示','删除成功！','info');
-                                dataGrid_role.datagrid('reload');
+                                refresh_role();
                             } else {
                                 $.messager.alert('信息提示',data.msg,'info');
                             }

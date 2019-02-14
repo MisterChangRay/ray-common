@@ -27,6 +27,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public BaseResponse<List> query(Map<String, String> param) {
+        if(null == param) param = MapBuilder.build();
+        param.put("deleted", DBEnum.FALSE.getCode().toString());
         return myBatisDao.queryWithPage("role.query", param);
     }
 

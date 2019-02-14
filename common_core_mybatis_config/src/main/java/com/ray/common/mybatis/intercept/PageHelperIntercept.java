@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Properties;
+
 /**
  * 文件名：AlipayController.java
  * 版权：Copyright by www.rsrtech.net
@@ -61,15 +62,15 @@ public class PageHelperIntercept implements Interceptor {
         //拦截以参数传入withPage=true的请求;统一实现分页功能
         if (null != paraObject.get("withPage") && "true".equals(paraObject.get("withPage"))) {
             //参数名称和在service中设置到map中的名称一致
-            page = Integer.valueOf( paraObject.get("page").toString());
-            pageSize = Integer.valueOf( paraObject.get("pageSize").toString());
+            page = Integer.valueOf(paraObject.get("page").toString());
+            pageSize = Integer.valueOf(paraObject.get("pageSize").toString());
 
-            String sql =  statementHandler.getBoundSql().getSql();
+            String sql = statementHandler.getBoundSql().getSql();
 
             //构建分页功能的sql语句
             String limitSql;
             sql = sql.trim();
-            limitSql = MessageFormat.format("{0} LIMIT {1}, {2} ", sql, (page - 1) * pageSize, pageSize);
+            limitSql = MessageFormat.format("{0} LIMIT {1}, {2} ", sql, String.valueOf((page - 1) * pageSize), String.valueOf(pageSize));
 
             //将构建完成的分页sql语句赋值个体'delegate.boundSql.sql'，偷天换日
             MetaObjectHandler.setValue("delegate.boundSql.sql", limitSql);
