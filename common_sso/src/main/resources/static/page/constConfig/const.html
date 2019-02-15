@@ -83,6 +83,7 @@
                     $.messager.alert('信息提示', '添加成功！', 'info');
                     dialog_const.dialog('close');
                     dataGrid_const.datagrid('reload');
+                    const_tree.tree('reload');
                 } else {
                     $.messager.alert('信息提示', data.msg, 'info');
                 }
@@ -102,6 +103,7 @@
                     $.messager.alert('信息提示', '修改成功！', 'info');
                     dialog_const.dialog('close');
                     dataGrid_const.datagrid('reload');
+                    const_tree.tree('reload');
                 } else {
                     $.messager.alert('信息提示', data.msg, 'info');
                 }
@@ -162,6 +164,7 @@
                         success: function (data) {
                             if (data && 0 == data.code) {
                                 dataGrid_const.datagrid('reload');
+                                const_tree.tree('reload');
                                 $.messager.alert('信息提示', '删除成功！', 'info');
                             } else {
                                 $.messager.alert('信息提示', data.msg, 'info');

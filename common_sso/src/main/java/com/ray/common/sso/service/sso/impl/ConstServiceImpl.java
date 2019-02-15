@@ -59,8 +59,8 @@ public class ConstServiceImpl implements ConstService {
         if (null != res) {
             Map resMap = (Map) res;
 
-            List r = myBatisDao.queryMulti("const.query", MapBuilder.build().add("matchById", resMap.get("pid")));
-            if (1 == r.size()) {
+            List r = myBatisDao.queryMulti("const.query", MapBuilder.build().add("matchById", resMap.get("pid")).add("deleted", DBEnum.FALSE.getCode()));
+            if (2 == r.size()) {
                 Map updateParent = MapBuilder.build().add("id", resMap.get("pid")).add("has_child", DBEnum.FALSE.getCode());
                 update(updateParent);
             }
