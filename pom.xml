@@ -13,6 +13,7 @@
         <module>common_core_mybatis_config</module>
         <module>common_core_redis_config</module>
         <module>common_sso</module>
+        <module>bitCoinHelper</module>
     </modules>
 
     <profiles>
